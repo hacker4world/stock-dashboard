@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase-Inspired Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+      rel="preload"
+      as="script"
+    />
+    <link rel="stylesheet" href="./styles/gestion-voitures.css" />
+  </head>
+  <body onload="renderCars([])">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fas fa-database logo-icon"></i>
+          <span>LocaPro</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <ul class="nav-items">
+          <li class="nav-item active">
+            <i class="fa-solid fa-car"></i>
+            <span>Gestion des voitures</span>
+          </li>
+
+          <a class="nav-item" href="./gestion-clients.html">
+            <i class="fa-solid fa-users"></i>
+            <span>Gestion des clients</span>
+          </a>
+          <li class="nav-item">
+            <i class="fas fa-file-alt"></i>
+            <span>Gestion des contrats</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-clock"></i>
+            <span>Gestion des réservations</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Alerts</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-calendar"></i>
+            <span>Agenda</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-list"></i>
+            <span>Suivi</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <h1 class="page-title">Liste des voitures</h1>
+        <div class="user-menu">
+          <button
+            class="button add-car-button"
+            onclick="toggleAddCarModal(true)"
+          >
+            <i class="fa-solid fa-plus"></i>
+            Ajouter voiture
+          </button>
+          <button class="button export">
+            <i class="fa-solid fa-file"></i>
+            Importer / Exporter
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="car-count">Liste des voitures</div>
+          <div>
+            <button
+              class="selection-button button-active"
+              id="all-cars-select"
+              onclick="selectAllCars()"
+            >
+              Tous les voitures
+            </button>
+            <button
+              class="selection-button"
+              id="available-cars-select"
+              onclick="selectAvailableCars()"
+            >
+              Voitures disponible
+            </button>
+            <button
+              class="selection-button"
+              id="rented-cars-select"
+              onclick="selectRentedCars()"
+            >
+              Voitures loué
+            </button>
+          </div>
+          <div class="card-search">
+            <input
+              type="text"
+              placeholder="Cherchez voiture par matricule"
+              class="search-bar"
+            />
+            <button onclick="toggleFilterModal(true)" class="filter-button">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+          </div>
+        </div>
+        <div class="table-container" style="margin-top: 20px">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Matricule</th>
+                <th>Marque</th>
+                <th>Model</th>
+                <th>Assurance</th>
+                <th>Kilometrage</th>
+                <th>Etat</th>
+              </tr>
+            </thead>
+            <tbody class="car-list"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal-overlay" id="filter-modal">
+      <div class="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title">Filtrer liste des voitures</h3>
+          <button
+            class="close-button"
+            id="close-modal"
+            onclick="toggleFilterModal(false)"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <!-- Matricule agent -->
+
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Selectionnez marque</option>
+              </select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Selectionnez model</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dates -->
+          <div class="form-row">
+            <div class="form-group">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage du"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage au"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button
+            class="button button-cancel"
+            onclick="toggleFilterModal(false)"
+          >
+            Annuler
+          </button>
+          <button class="button button-submit">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="add-car-modal">
+      <div class="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title">Ajouter Voiture</h3>
+          <button
+            class="close-button"
+            id="close-modal"
+            onclick="toggleAddCarModal(false)"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="alert" role="alert">
+            <i
+              class="fas fa-triangle-exclamation alert-icon"
+              aria-hidden="true"
+            ></i>
+            <div class="alert-message">
+              Matricule du voiture est obligatoire
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <label>Matricule</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Matricule du voiture"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Marque</label>
+              <input type="text" class="form-control" placeholder="Marque" />
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <input type="text" class="form-control" placeholder="Model" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Kilométrage actuel</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage actuel"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Assurance</label>
+              <select class="form-control">
+                <option>Assurance</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date assurance limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date assurance limite"
+              />
+            </div>
+            <div class="form-group">
+              <label>Date vignette limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date vignette limite"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date visite limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date visite limite"
+              />
+            </div>
+            <div class="form-group">
+              <label>Kilométrage vidange</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage vidange"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button
+            class="button button-cancel"
+            onclick="toggleAddCarModal(false)"
+          >
+            Annuler
+          </button>
+          <button class="button button-submit" onclick="addCarSubmit()">
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="./scripts/gestion-voitures.js"></script>
+</html>
