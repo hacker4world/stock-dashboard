@@ -8,11 +8,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
-      rel="preload"
-      as="script"
-    />
     <link rel="stylesheet" href="./styles/gestion-voitures.css" />
   </head>
   <body onload="renderCars([])">
@@ -72,7 +67,7 @@
             <i class="fa-solid fa-plus"></i>
             Ajouter voiture
           </button>
-          <button class="button export">
+          <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
             Importer / Exporter
           </button>
@@ -115,10 +110,29 @@
             <button onclick="toggleFilterModal(true)" class="filter-button">
               <i class="fa-solid fa-filter"></i>
             </button>
+            <button
+              class="sort-button"
+              style="margin-left: 5px"
+              onclick="setSortModal(true)"
+            >
+              <i class="fas fa-sort"></i>
+            </button>
           </div>
         </div>
         <div class="table-container" style="margin-top: 20px">
           <table class="data-table">
+            <div class="filter-alert" role="alert">
+              <i class="fas fa-exclamation-circle alert-icon"></i>
+              <div class="alert-message">Cet liste est filtrée</div>
+              <button
+                class="button add-car-button"
+                style="margin-left: auto"
+                onclick="removeFilters()"
+              >
+                <i class="fas fa-times"></i>
+                Remove filters
+              </button>
+            </div>
             <thead>
               <tr>
                 <th>Matricule</th>
@@ -156,31 +170,111 @@
           <div class="form-row">
             <div class="form-group" style="width: 100%">
               <select class="form-control" placeholder="Entrez marque">
-                <option value="">Selectionnez marque</option>
+                <option value="">Tous les marques</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
               <select class="form-control" placeholder="Entrez marque">
-                <option value="">Selectionnez model</option>
+                <option value="">Tous les models</option>
               </select>
             </div>
           </div>
 
-          <!-- Dates -->
           <div class="form-row">
             <div class="form-group">
+              <label>Kilométrage du</label>
+              <input type="number" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>Kilométrage au</label>
+              <input type="number" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date limite assurance du</label>
               <input
-                type="number"
+                type="date"
                 class="form-control"
-                placeholder="Kilométrage du"
+                id="car-details-date-assurance"
               />
             </div>
             <div class="form-group">
+              <label>Date limite assurance au</label>
+              <input
+                type="date"
+                class="form-control"
+                id="car-details-date-vignette"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date limite vignette du</label>
+              <input
+                type="date"
+                class="form-control"
+                id="car-details-date-assurance"
+              />
+            </div>
+            <div class="form-group">
+              <label>Date limite vignette au</label>
+              <input
+                type="date"
+                class="form-control"
+                id="car-details-date-vignette"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date limite visite du</label>
+              <input
+                type="date"
+                class="form-control"
+                id="car-details-date-assurance"
+              />
+            </div>
+            <div class="form-group">
+              <label>Date limite visite au</label>
+              <input
+                type="date"
+                class="form-control"
+                id="car-details-date-vignette"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Kilométrage vidange du</label>
               <input
                 type="number"
                 class="form-control"
-                placeholder="Kilométrage au"
+                id="car-details-date-assurance"
               />
+            </div>
+            <div class="form-group">
+              <label>Kilométrage vidange au</label>
+              <input
+                type="number"
+                class="form-control"
+                id="car-details-date-vignette"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Assurance</label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Etat</label>
+              <select class="form-control"></select>
             </div>
           </div>
         </div>
@@ -193,7 +287,9 @@
           >
             Annuler
           </button>
-          <button class="button button-submit">Enregistrer</button>
+          <button class="button button-submit" onclick="filterCars()">
+            Filtrer
+          </button>
         </div>
       </div>
     </div>
@@ -301,6 +397,12 @@
               />
             </div>
           </div>
+          <div class="form-row">
+            <select class="form-control">
+              <option value="disponible">Disponible</option>
+              <option value="loué">Loué</option>
+            </select>
+          </div>
         </div>
 
         <!-- Modal Footer -->
@@ -313,6 +415,266 @@
           </button>
           <button class="button button-submit" onclick="addCarSubmit()">
             Ajouter
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="car-details-modal">
+      <div class="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title">Details du voiture</h3>
+          <button
+            class="close-button"
+            id="close-modal"
+            onclick="setCarDetailsModal(false)"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="modification-alert" role="alert">
+            <i class="fas fa-exclamation-circle alert-icon"></i>
+            <div class="alert-message">A change has occured</div>
+            <button class="button add-car-button" style="margin-left: auto">
+              <i class="fas fa-times"></i>
+              Restorer
+            </button>
+          </div>
+
+          <div class="alert" role="alert">
+            <i
+              class="fas fa-triangle-exclamation alert-icon"
+              aria-hidden="true"
+            ></i>
+            <div class="alert-message">
+              Matricule du voiture est obligatoire
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <label>Matricule</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Matricule du voiture"
+                id="car-details-matricule"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Marque</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Marque"
+                id="car-details-marque"
+              />
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Model"
+                id="car-details-model"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Kilométrage actuel</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage actuel"
+                id="car-details-kilometrage"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Assurance</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Assurance"
+                id="car-details-assurance"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date assurance limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date assurance limite"
+                id="car-details-date-assurance"
+              />
+            </div>
+            <div class="form-group">
+              <label>Date vignette limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date vignette limite"
+                id="car-details-date-vignette"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date visite limite</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date visite limite"
+                id="car-details-date-visite"
+              />
+            </div>
+            <div class="form-group">
+              <label>Kilométrage vidange</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kilométrage vidange"
+                id="car-details-km-vidange"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <select class="form-control" id="car-details-etat">
+              <option value="disponible">Disponible</option>
+              <option value="loué">Loué</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button
+            class="delete-button"
+            onclick="addCarSubmit()"
+            style="margin-right: auto"
+          >
+            Supprimer
+          </button>
+          <button
+            class="button button-cancel"
+            onclick="setCarDetailsModal(false)"
+          >
+            Annuler
+          </button>
+          <button class="button button-submit" onclick="addCarSubmit()">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="sort-modal">
+      <div class="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title">Trier liste</h3>
+          <button
+            class="close-button"
+            id="close-modal"
+            onclick="setSortModal(false)"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <select class="form-control">
+                <option>Kilométrage</option>
+                <option>Kilométrage vidange</option>
+                <option>Date limite assurance</option>
+                <option>Date limite vignette</option>
+                <option>Date limite visite</option>
+              </select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <select class="form-control">
+                <option>Ascending</option>
+                <option>Descending</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button class="button button-cancel" onclick="setSortModal(false)">
+            Annuler
+          </button>
+          <button class="button button-submit" onclick="sortCarList()">
+            Trier liste
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="import-export-modal">
+      <div class="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title">Importer / Exporter liste des voitures</h3>
+          <button
+            class="close-button"
+            id="close-modal"
+            onclick="setSortModal(false)"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div style="display: flex; justify-content: space-around">
+            <button class="tab-button button-active" id="all-cars-select">
+              Importer
+            </button>
+            <button class="tab-button" id="available-cars-select">
+              Exporter
+            </button>
+          </div>
+          <br />
+          <div class="form-row">
+            <label for="file-input" class="file-select-button">
+              <i class="fas fa-plus"></i>
+              Selectionnez fichier pour importer
+            </label>
+            <input
+              type="file"
+              class="form-control"
+              id="file-input"
+              placeholder="Fichier excel pour importer"
+              style="display: none"
+            />
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button class="button button-cancel" onclick="setSortModal(false)">
+            Annuler
+          </button>
+          <button class="button button-submit" onclick="sortCarList()">
+            Importer
           </button>
         </div>
       </div>
