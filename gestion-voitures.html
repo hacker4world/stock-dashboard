@@ -636,7 +636,7 @@
           <button
             class="close-button"
             id="close-modal"
-            onclick="setSortModal(false)"
+            onclick="setImportExportModal(false)"
           >
             &times;
           </button>
@@ -645,15 +645,23 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <div style="display: flex; justify-content: space-around">
-            <button class="tab-button button-active" id="all-cars-select">
+            <button
+              class="tab-button button-active"
+              id="import-tab-button"
+              onclick="setTab('import')"
+            >
               Importer
             </button>
-            <button class="tab-button" id="available-cars-select">
+            <button
+              class="tab-button"
+              id="export-tab-button"
+              onclick="setTab('export')"
+            >
               Exporter
             </button>
           </div>
           <br />
-          <div class="form-row">
+          <div class="form-row" id="import-menu">
             <label for="file-input" class="file-select-button">
               <i class="fas fa-plus"></i>
               Selectionnez fichier pour importer
@@ -666,15 +674,36 @@
               style="display: none"
             />
           </div>
+
+          <div class="form-row" id="export-menu">
+            <div class="form-group">
+              <select class="form-control">
+                <option value="">Tous les voitures</option>
+                <option value="">Liste affichée</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control">
+                <option value="">PDF</option>
+                <option value="">Excel</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Modal Footer -->
         <div class="modal-footer">
-          <button class="button button-cancel" onclick="setSortModal(false)">
+          <button
+            class="button button-cancel"
+            onclick="setImportExportModal(false)"
+          >
             Annuler
           </button>
-          <button class="button button-submit" onclick="sortCarList()">
+          <button class="button button-submit" id="import-button">
             Importer
+          </button>
+          <button class="button button-submit" id="export-button">
+            Exporter
           </button>
         </div>
       </div>

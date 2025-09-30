@@ -275,3 +275,30 @@ function sortCarList() {
 function setImportExportModal(open) {
   importExportModal.style.display = open ? "flex" : "none";
 }
+
+function setTab(tab) {
+  const importTabButton = document.getElementById("import-tab-button");
+  const exportTabButton = document.getElementById("export-tab-button");
+
+  const importMenu = document.getElementById("import-menu");
+  const exportMenu = document.getElementById("export-menu");
+
+  const importButton = document.getElementById("import-button");
+  const exportButton = document.getElementById("export-button");
+
+  if (tab === "import") {
+    importMenu.style.display = "flex";
+    exportMenu.style.display = "none";
+    importTabButton.classList.add("button-active");
+    exportTabButton.classList.remove("button-active");
+    importButton.style.display = "flex";
+    exportButton.style.display = "none";
+  } else if (tab === "export") {
+    importMenu.style.display = "none";
+    exportMenu.style.display = "flex";
+    importTabButton.classList.remove("button-active");
+    exportTabButton.classList.add("button-active");
+    importButton.style.display = "none";
+    exportButton.style.display = "flex";
+  }
+}

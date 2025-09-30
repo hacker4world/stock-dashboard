@@ -558,6 +558,14 @@ body {
   cursor: pointer;
 }
 
+#export-menu {
+  display: none;
+}
+
+#export-button {
+  display: none;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
   .sidebar {
