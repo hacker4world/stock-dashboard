@@ -1,3 +1,0 @@
-search car
-sort cars
-filter cars
