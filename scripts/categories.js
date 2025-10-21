@@ -1,36 +1,35 @@
-let entries = [
+let categories = [
   {
     id: "0",
-    produit: "IMPER Sintofoil RG-1.5 (1,50 m x 30,00 m)",
-    categorie: "TPO-FPO",
-    date: "11 Juin 2025",
-    stock: 20,
-    fournisseur: "IMPER",
+    nom: "TPO-FPO",
+    articles: 15,
+    entrées: 20,
+    sorties: 14,
   },
 ];
 
-let entryList = document.querySelector("tbody");
+let categoriesList = document.querySelector("tbody");
 let addEntryModal = document.getElementById("add-entry-modal");
 let filterModal = document.getElementById("filter-modal");
 let sortModal = document.getElementById("sort-modal");
-let detailsModal = document.getElementById("entry-details-modal");
-let entryCount = document.getElementById("entry-count");
+let detailsModal = document.getElementById("category-details-modal");
+let categoriesCount = document.getElementById("entry-count");
 
-function loadEntries() {
+function loadCategories() {
   let content = "";
 
-  entries.forEach((entry) => {
-    content += `<tr onclick='setEntryDetailsModal(true, "${entry.id}")' >
-                    <td>${entry.produit}</td>
-                    <td>${entry.categorie}</td>
-                    <td>${entry.date}</td>
-                    <td>${entry.stock}</td>
-                    <td>${entry.fournisseur}</td>    
+  categories.forEach((category) => {
+    content += `<tr onclick='setCategoryDetailsModal(true, "${category.id}")' >
+                    <td>${category.nom}</td>
+                    <td>${category.articles}</td>
+                    <td>${category.entrées}</td>
+                    <td>${category.sorties}</td>
+                        
                 </tr>`;
   });
 
-  entryList.innerHTML = content;
-  entryCount.innerText = `${entries.length} Entrées Affichées`;
+  categoriesList.innerHTML = content;
+  categoriesCount.innerText = `${entries.length} Categories Affichées`;
 }
 
 function toggleAddEntryModal(open) {
@@ -47,10 +46,10 @@ function setSortModal(open) {
   sortModal.style.display = open ? "flex" : "none";
 }
 
-function setEntryDetailsModal(open, entryId) {
+function setCategoryDetailsModal(open, categoryId) {
   if (open) {
     detailsModal.style.display = "flex";
-    let entry = entries.find((entry) => entry.id === entryId);
+    let category = categories.find((category) => category.id === categoryId);
 
     document.getElementById("details-article-name").value = entry.produit;
     document.getElementById("details-actual-stock").value = entry.stock;

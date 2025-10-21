@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="./styles/gestion-voitures.css" />
   </head>
-  <body onload="loadEntries()">
+  <body onload="loadFounisseurs()">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -26,18 +26,18 @@
             <span>Stock Actuel</span>
           </a>
 
-          <li class="nav-item active">
+          <a class="nav-item" href="./entrées.html">
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
-          </li>
+          </a>
           <a class="nav-item" href="./sorties.html">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
           </a>
-          <a class="nav-item" href="./fournisseurs.html">
+          <li class="nav-item active">
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
-          </a>
+          </li>
           <a class="nav-item" href="./categories.html">
             <i class="fas fa-list"></i>
             <span>Categories</span>
@@ -53,14 +53,14 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Entrées</h1>
+        <h1 class="page-title">Liste des Fournisseurs</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
             onclick="toggleAddEntryModal(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Entrée
+            Ajouter Fournisseur
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -72,17 +72,16 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="entry-count">Liste des Entrées</div>
+          <div class="card-title" id="fournisseur-count">
+            Liste des Fournisseurs
+          </div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Entrées"
+              placeholder="Cherchez Fournisseurs"
               class="search-bar"
             />
-            <button onclick="toggleFilterModal(true)" class="filter-button">
-              <i class="fa-solid fa-filter"></i>
-            </button>
             <button
               class="sort-button"
               style="margin-left: 5px"
@@ -108,11 +107,12 @@
             </div>
             <thead>
               <tr>
-                <th>Produit</th>
-                <th>Categorie</th>
-                <th>Date</th>
-                <th>Stock Entrée</th>
-                <th>Fournisseur</th>
+                <th>Nom</th>
+                <th>Contact</th>
+                <th>Adresse</th>
+                <th>Articles</th>
+                <th>Entrées</th>
+                <th>Sorties</th>
               </tr>
             </thead>
             <tbody class="car-list"></tbody>
@@ -121,89 +121,11 @@
       </div>
     </main>
 
-    <div class="modal-overlay" id="filter-modal">
-      <div class="modal">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des entrées</h3>
-          <button
-            class="close-button"
-            id="close-modal"
-            onclick="toggleFilterModal(false)"
-          >
-            &times;
-          </button>
-        </div>
-
-        <!-- Modal Body -->
-        <div class="modal-body">
-          <!-- Matricule agent -->
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Produit : </label>
-              <input class="form-control" type="text" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Date du : </label>
-              <input class="form-control" type="date" />
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Date au : </label>
-              <input class="form-control" type="date" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Stock du :</label>
-              <input type="number" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label>Stock au :</label>
-              <input type="number" class="form-control" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Categorie : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les categories</option>
-              </select>
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Fournisseur : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les fournisseurs</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="modal-footer">
-          <button
-            class="button button-cancel"
-            onclick="toggleFilterModal(false)"
-          >
-            Annuler
-          </button>
-          <button class="button button-submit" onclick="filterCars()">
-            Filtrer
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div class="modal-overlay" id="add-entry-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Entrée</h3>
+          <h3 class="modal-title">Ajouter Fournisseur</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -227,73 +149,24 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom de l'article : </label>
+              <label>Nom du fournisseur : </label>
               <input type="text" class="form-control" id="add-article-name" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock entrée : </label>
+              <label>Contact : </label>
               <input
                 min="0"
-                type="number"
+                type="text"
                 class="form-control"
                 id="add-actual-stock"
               />
             </div>
             <div class="form-group">
-              <label>Date : </label>
-              <input min="0" type="date" class="form-control" id="add-price" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Categorie : </label>
-              <select class="form-control" id="add-category">
-                <option value="">Selectionner Categorie</option>
-                <option value="TPO-FPO">TPO-FPO</option>
-                <option value="VIS">VIS</option>
-                <option value="RONDELLE-PLAQUETTE">RONDELLE-PLAQUETTE</option>
-                <option value="TÔLE COLAMINÉ">TÔLE COLAMINÉ</option>
-                <option value="DILUANT">DILUANT</option>
-                <option value="COLLE">COLLE</option>
-                <option value="ÉTANCHÉITÉ LIQUIDE">ÉTANCHÉITÉ LIQUIDE</option>
-                <option value="LAINE DE ROCHE">LAINE DE ROCHE</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="ÉTANCHÉITÉ BITUMINEUSE">
-                  ÉTANCHÉITÉ BITUMINEUSE
-                </option>
-                <option value="CUVELAGE">CUVELAGE</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="add-fournisseur">
-                <option value="">Sélectionnez un fournisseur</option>
-                <option value="IMPER">IMPER</option>
-                <option value="SIKA">SIKA</option>
-                <option value="KÔSTER">KÔSTER</option>
-                <option value="ETANCO">ETANCO</option>
-                <option value="GAURDIEN">GAURDIEN</option>
-                <option value="GAUARDIAN">GAUARDIAN</option>
-                <option value="ALETAS">ALETAS</option>
-                <option value="INDEX">INDEX</option>
-                <option value="RONDRUP">RONDRUP</option>
-                <option value="GRG">GRG</option>
-                <option value="MODULE">MODULE</option>
-                <option value="CELLULOSIQUE">CELLULOSIQUE</option>
-                <option value="Rubberfuse">Rubberfuse</option>
-                <option value="ASSOFLEX">ASSOFLEX</option>
-                <option value="DERBIGUM">DERBIGUM</option>
-                <option value="POLYANE">POLYANE</option>
-                <option value="ROCKACIER">ROCKACIER</option>
-                <option value="COBERLAN">COBERLAN</option>
-                <option value="ROCK-UP">ROCK-UP</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="NIROL">NIROL</option>
-              </select>
+              <label>Adresse : </label>
+              <input min="0" type="text" class="form-control" id="add-price" />
             </div>
           </div>
         </div>
@@ -313,15 +186,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="entry-details-modal">
+    <div class="modal-overlay" id="fournisseur-details-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details d'entrée</h3>
+          <h3 class="modal-title">Details du Fournisseur</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="setEntryDetailsModal(false)"
+            onclick="setFournisseurDetailsModal(false)"
           >
             &times;
           </button>
@@ -339,84 +212,31 @@
             </button>
           </div>
 
+          <div class="alert" role="alert">
+            <i
+              class="fas fa-triangle-exclamation alert-icon"
+              aria-hidden="true"
+            ></i>
+            <div class="alert-message">
+              Matricule du voiture est obligatoire
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom de l'article : </label>
-              <input
-                type="text"
-                class="form-control"
-                id="details-article-name"
-              />
+              <label>Nom du fournisseur : </label>
+              <input type="text" class="form-control" id="nom" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock entrée : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="details-actual-stock"
-              />
+              <label>Contact : </label>
+              <input min="0" type="text" class="form-control" id="contact" />
             </div>
             <div class="form-group">
-              <label>Date : </label>
-              <input
-                min="0"
-                type="date"
-                class="form-control"
-                id="details-date"
-              />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Categorie : </label>
-              <select class="form-control" id="details-category">
-                <option value="">Selectionner Categorie</option>
-                <option value="TPO-FPO">TPO-FPO</option>
-                <option value="VIS">VIS</option>
-                <option value="RONDELLE-PLAQUETTE">RONDELLE-PLAQUETTE</option>
-                <option value="TÔLE COLAMINÉ">TÔLE COLAMINÉ</option>
-                <option value="DILUANT">DILUANT</option>
-                <option value="COLLE">COLLE</option>
-                <option value="ÉTANCHÉITÉ LIQUIDE">ÉTANCHÉITÉ LIQUIDE</option>
-                <option value="LAINE DE ROCHE">LAINE DE ROCHE</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="ÉTANCHÉITÉ BITUMINEUSE">
-                  ÉTANCHÉITÉ BITUMINEUSE
-                </option>
-                <option value="CUVELAGE">CUVELAGE</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="details-fournisseur">
-                <option value="">Sélectionnez un fournisseur</option>
-                <option value="IMPER">IMPER</option>
-                <option value="SIKA">SIKA</option>
-                <option value="KÔSTER">KÔSTER</option>
-                <option value="ETANCO">ETANCO</option>
-                <option value="GAURDIEN">GAURDIEN</option>
-                <option value="GAUARDIAN">GAUARDIAN</option>
-                <option value="ALETAS">ALETAS</option>
-                <option value="INDEX">INDEX</option>
-                <option value="RONDRUP">RONDRUP</option>
-                <option value="GRG">GRG</option>
-                <option value="MODULE">MODULE</option>
-                <option value="CELLULOSIQUE">CELLULOSIQUE</option>
-                <option value="Rubberfuse">Rubberfuse</option>
-                <option value="ASSOFLEX">ASSOFLEX</option>
-                <option value="DERBIGUM">DERBIGUM</option>
-                <option value="POLYANE">POLYANE</option>
-                <option value="ROCKACIER">ROCKACIER</option>
-                <option value="COBERLAN">COBERLAN</option>
-                <option value="ROCK-UP">ROCK-UP</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="NIROL">NIROL</option>
-              </select>
+              <label>Adresse : </label>
+              <input min="0" type="text" class="form-control" id="adresse" />
             </div>
           </div>
         </div>
@@ -425,7 +245,7 @@
         <div class="modal-footer">
           <button
             class="delete-button"
-            onclick="addCarSubmit()"
+            onclick="setFournisseurDetailsModal()"
             style="margin-right: auto"
           >
             Supprimer
@@ -435,17 +255,22 @@
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Fournisseur
+            Entrées
+          </button>
+          <button
+            class="button button-cancel"
+            onclick="setFournisseurDetailsModal(false)"
+          >
+            Sorties
           </button>
 
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Stock
+            Articles
           </button>
           
-
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer
           </button>
@@ -457,7 +282,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des entrées</h3>
+          <h3 class="modal-title">Trier liste des Fournisseurs</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -472,8 +297,9 @@
           <div class="form-row">
             <div class="form-group" style="width: 100%">
               <select class="form-control">
-                <option>Date</option>
-                <option>Stock</option>
+                <option>Articles</option>
+                <option>Entrées</option>
+                <option>Sorties</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
@@ -579,5 +405,5 @@
     </div>
   </body>
 
-  <script src="./scripts/entrées.js"></script>
+  <script src="./scripts/fournisseurs.js"></script>
 </html>

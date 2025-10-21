@@ -26,14 +26,14 @@
             <span>Stock Actuel</span>
           </a>
 
-          <li class="nav-item active">
+          <a class="nav-item" href="./entrées.html">
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
-          </li>
-          <a class="nav-item" href="./sorties.html">
+          </a>
+          <li class="nav-item active">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
-          </a>
+          </li>
           <a class="nav-item" href="./fournisseurs.html">
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
@@ -53,14 +53,14 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Entrées</h1>
+        <h1 class="page-title">Liste des Sorties</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
             onclick="toggleAddEntryModal(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Entrée
+            Ajouter Sortie
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -72,12 +72,12 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="entry-count">Liste des Entrées</div>
+          <div class="card-title" id="car-count">Liste des Sorties</div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Entrées"
+              placeholder="Cherchez Sorties"
               class="search-bar"
             />
             <button onclick="toggleFilterModal(true)" class="filter-button">
@@ -111,7 +111,7 @@
                 <th>Produit</th>
                 <th>Categorie</th>
                 <th>Date</th>
-                <th>Stock Entrée</th>
+                <th>Stock Sortie</th>
                 <th>Fournisseur</th>
               </tr>
             </thead>
@@ -125,7 +125,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des entrées</h3>
+          <h3 class="modal-title">Filtrer liste des sorties</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -203,7 +203,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Entrée</h3>
+          <h3 class="modal-title">Ajouter Sortie</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -234,7 +234,7 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock entrée : </label>
+              <label>Stock Sortie : </label>
               <input
                 min="0"
                 type="number"
@@ -317,7 +317,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details d'entrée</h3>
+          <h3 class="modal-title">Details du Sortie</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -352,7 +352,7 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock entrée : </label>
+              <label>Stock Sortie : </label>
               <input
                 min="0"
                 type="number"
@@ -430,7 +430,6 @@
           >
             Supprimer
           </button>
-
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
@@ -444,8 +443,6 @@
           >
             Stock
           </button>
-          
-
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer
           </button>
@@ -457,7 +454,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des entrées</h3>
+          <h3 class="modal-title">Trier liste des Sorties</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -579,5 +576,5 @@
     </div>
   </body>
 
-  <script src="./scripts/entrées.js"></script>
+  <script src="./scripts/sortie.js"></script>
 </html>

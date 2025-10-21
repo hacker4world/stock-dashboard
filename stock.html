@@ -15,8 +15,7 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-          <i class="fas fa-database logo-icon"></i>
-          <span>LocaPro</span>
+          <span>Gestion Stock</span>
         </div>
       </div>
 
@@ -31,18 +30,18 @@
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
           </a>
-          <li class="nav-item">
+          <a class="nav-item" href="./sorties.html">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
-          </li>
-          <li class="nav-item">
+          </a>
+          <a class="nav-item" href="./fournisseurs.html">
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
-          </li>
-          <li class="nav-item">
+          </a>
+          <a class="nav-item" href="./categories.html">
             <i class="fas fa-list"></i>
             <span>Categories</span>
-          </li>
+          </a>
           <li class="nav-item">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
@@ -424,12 +423,27 @@
           >
             Supprimer
           </button>
+
           <button
             class="button button-cancel"
-            onclick="setCarDetailsModal(false)"
+            onclick="setFournisseurDetailsModal(false)"
           >
-            Annuler
+            Fournisseur
           </button>
+          <button
+            class="button button-cancel"
+            onclick="setFournisseurDetailsModal(false)"
+          >
+            Entrées
+          </button>
+
+          <button
+            class="button button-cancel"
+            onclick="setFournisseurDetailsModal(false)"
+          >
+            Sorties
+          </button>
+
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer
           </button>
