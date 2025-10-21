@@ -23,7 +23,6 @@
 }
 
 body {
-  background-color: var(--dark);
   color: var(--text);
   min-height: 100vh;
   display: flex;
@@ -33,7 +32,7 @@ body {
 /* Sidebar styles */
 .sidebar {
   width: 240px;
-  background-color: var(--dark-secondary);
+
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -50,7 +49,7 @@ body {
 }
 
 .logo {
-  color: var(--text);
+  color: #0b5ed7;
   font-size: 20px;
   font-weight: 600;
   display: flex;
@@ -70,7 +69,7 @@ body {
 
 .nav-section-title {
   padding: 0 16px 8px;
-  color: var(--text-secondary);
+
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -85,7 +84,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--text-secondary);
+  color: black;
   cursor: pointer;
   margin-top: 5px;
   transition: all 0.2s ease;
@@ -94,8 +93,8 @@ body {
 
 .nav-item:hover,
 .nav-item.active {
-  background-color: rgba(62, 207, 142, 0.1);
-  color: var(--primary);
+  background-color: rgba(0, 170, 255, 0.1);
+  color: #0b5ed7;
 }
 
 .nav-item.active {
@@ -124,40 +123,13 @@ body {
 .page-title {
   font-size: 24px;
   font-weight: 600;
+  color: #0b5ed7;
 }
 
 .user-menu {
   display: flex;
   align-items: center;
   gap: 16px;
-}
-
-.notification-bell {
-  position: relative;
-  cursor: pointer;
-}
-
-.notification-dot {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 8px;
-  height: 8px;
-  background-color: var(--primary);
-  border-radius: 50%;
-}
-
-.user-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--primary-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text);
-  font-weight: 600;
-  cursor: pointer;
 }
 
 /* Dashboard Grid */
@@ -169,7 +141,6 @@ body {
 }
 
 .card {
-  background-color: var(--dark-secondary);
   border-radius: 8px;
   padding: 20px;
   border: 1px solid var(--border);
@@ -186,7 +157,7 @@ body {
 .card-title {
   font-size: 16px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #0b5ed7;
 }
 
 .card-search {
@@ -237,12 +208,13 @@ body {
 .data-table td {
   padding: 14px 15px;
   text-align: left;
+  color: black;
   border-bottom: 1px solid var(--border);
 }
 
 .data-table th {
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #0b5ed7;
   font-size: 14px;
 }
 
@@ -259,7 +231,7 @@ body {
 }
 
 .status-active {
-  background-color: rgba(62, 207, 142, 0.2);
+  background-color: rgba(2, 128, 255, 0.2);
   color: var(--success);
 }
 
@@ -287,14 +259,14 @@ body {
   height: 35px;
   width: 90%;
   padding: 15px;
-  background-color: #1f1f1f;
-  border: none;
+
+  border-color: #0b5ed7;
   border-radius: 7px;
-  color: white;
 }
 
 .search-bar:focus {
-  outline: 2px solid #24b47e;
+  outline: 2px solid #0b5ed7;
+  border: none;
 }
 
 .selection-button {
@@ -302,7 +274,7 @@ body {
   height: 2.3rem;
   border-radius: 5px;
   border: none;
-  background-color: #1f1f1f;
+  background-color: #0b5ed7;
   color: white;
   cursor: pointer;
 }
@@ -311,7 +283,7 @@ body {
   width: 40px;
   border-radius: 7px;
   border: none;
-  background-color: #1f1f1f;
+  background-color: #0b5ed7;
   color: white;
   cursor: pointer;
   margin-left: 5px;
@@ -321,7 +293,7 @@ body {
   width: 40px;
   border-radius: 7px;
   border: none;
-  background-color: #1f1f1f;
+  background-color: #0b5ed7;
   color: white;
   cursor: pointer;
 }
@@ -465,14 +437,14 @@ body {
 }
 
 .add-car-button {
-  background-color: #111111;
+  background-color: #0b5ed7;
   color: white;
   border: none;
   display: flex;
 }
 
 .export {
-  background-color: #111111;
+  background-color: #0b5ed7;
   color: white;
   border: none;
   display: flex;
