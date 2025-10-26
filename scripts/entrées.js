@@ -21,6 +21,7 @@ function loadEntries() {
 
   entries.forEach((entry) => {
     content += `<tr onclick='setEntryDetailsModal(true, "${entry.id}")' >
+                    <td>${entry.id}</td>
                     <td>${entry.produit}</td>
                     <td>${entry.categorie}</td>
                     <td>${entry.date}</td>

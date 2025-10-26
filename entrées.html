@@ -108,6 +108,7 @@
             </div>
             <thead>
               <tr>
+                <th>Code de l'article</th>
                 <th>Produit</th>
                 <th>Categorie</th>
                 <th>Date</th>
@@ -181,6 +182,13 @@
                 <option value="">Tous les fournisseurs</option>
               </select>
             </div>
+            <div class="form-row"></div>
+          </div>
+          <div class="form-group">
+            <label>Fabriquant</label>
+            <select class="form-control">
+              <option value="">Tous les fabriquants</option>
+            </select>
           </div>
         </div>
 
@@ -226,6 +234,10 @@
           </div>
 
           <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <label>Code de l'article : </label>
+              <input type="text" class="form-control" id="add-article-name" />
+            </div>
             <div class="form-group" style="width: 100%">
               <label>Nom de l'article : </label>
               <input type="text" class="form-control" id="add-article-name" />
@@ -444,7 +456,6 @@
           >
             Stock
           </button>
-          
 
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer

@@ -72,7 +72,7 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="car-count">Liste des voitures</div>
+          <div class="card-title" id="car-count">Liste des articles</div>
 
           <div class="card-search">
             <input
@@ -108,11 +108,12 @@
             </div>
             <thead>
               <tr>
+                <th>Code</th>
                 <th>Nom</th>
                 <th>Categorie</th>
-                <th>Stock actuel</th>
-                <th>Stock min</th>
-                <th>Stock max</th>
+                <th>Stock</th>
+                <th>Minimum</th>
+                <th>Maximum</th>
                 <th>Prix unitaire</th>
                 <th>Fournisseur</th>
               </tr>
@@ -164,6 +165,14 @@
               <input type="number" class="form-control" />
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fabriquant</label>
+              <select class="form-control">
+                <option value="">Tous les fabriquants</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Modal Footer -->
@@ -208,7 +217,11 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group" style="width: 100%">
+            <div class="form-group">
+              <label>Code de l'article : </label>
+              <input type="text" class="form-control" id="add-article-name" />
+            </div>
+            <div class="form-group">
               <label>Nom de l'article : </label>
               <input type="text" class="form-control" id="add-article-name" />
             </div>
