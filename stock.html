@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Supabase-Inspired Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -38,15 +44,51 @@
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
           </a>
-          <a class="nav-item" href="./categories.html">
-            <i class="fas fa-list"></i>
-            <span>Categories</span>
+          <a id="classing" class="nav-item" onclick="toggleSubCategories()">
+            <i class="fas fa-table"></i>
+            <span>Classement</span>
+            <i
+              id="classing-icon"
+              class="fas fa-caret-down"
+              style="margin-left: auto"
+            ></i>
           </a>
-          <li class="nav-item">
+
+          <div id="sub-categories">
+            <a class="nav-item sub-category" href="./classement/familles.html">
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Familles</span>
+            </a>
+            <a
+              class="nav-item sub-category"
+              href="./classement/sous-familles.html"
+            >
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Sous Familles</span>
+            </a>
+            <a
+              class="nav-item sub-category"
+              href="./classement/catégories.html"
+            >
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Catégories</span>
+            </a>
+          </div>
+          <a class="nav-item" href="./fournisseurs.html">
+            <i class="fas fa-building"></i>
+            <span>Fabriquants</span>
+          </a>
+          <a class="nav-item" href="./fournisseurs.html">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
-          </li>
+          </a>
         </ul>
+      </div>
+      <div style="border-top: 3px solid #2e2e2e; margin-top: 99%">
+        <a class="nav-item red-active">
+          <i class="fas fa-power-off"></i>
+          <span>Se déconnecter</span>
+        </a>
       </div>
     </aside>
 
@@ -165,6 +207,18 @@
               <input type="number" class="form-control" />
             </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Famille : </label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group">
               <label>Fabriquant</label>
@@ -267,6 +321,17 @@
                 class="form-control"
                 id="add-max-stock"
               />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Famille : </label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
             </div>
           </div>
 
@@ -417,6 +482,17 @@
 
           <div class="form-row">
             <div class="form-group">
+              <label>Famille : </label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
               <label>Categorie : </label>
               <select class="form-control"></select>
             </div>
@@ -482,16 +558,19 @@
         <div class="modal-body">
           <div class="form-row">
             <div class="form-group" style="width: 100%">
+              <label>Trier par : </label>
               <select class="form-control">
                 <option>Stock</option>
-                <option>Prix</option>
-                <option>Nom</option>
+                <option>Prix unitaire</option>
+                <option>Prix minimum</option>
+                <option>Prix maximum</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
+              <label>Ordre : </label>
               <select class="form-control">
-                <option>Ordre croissant</option>
-                <option>Ordre décroissant</option>
+                <option>Croissant</option>
+                <option>Décroissant</option>
               </select>
             </div>
           </div>

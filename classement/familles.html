@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Supabase-Inspired Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="./styles/gestion-voitures.css" />
+    <link rel="stylesheet" href="../styles/gestion-voitures.css" />
   </head>
-  <body onload="loadCategories()">
+  <body onload="loadFamilies()">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -26,41 +32,79 @@
             <span>Stock Actuel</span>
           </a>
 
-          <a class="nav-item" href="./entrées.html">
+          <li class="nav-item">
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
-          </a>
-          <a class="nav-item" href="./sorties.html">
+          </li>
+          <a class="nav-item" href="/sorties.html">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
           </a>
-          <a class="nav-item" href="./fournisseurs.html">
+          <a class="nav-item" href="/fournisseurs.html">
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
           </a>
-          <li class="nav-item active">
-            <i class="fas fa-list"></i>
-            <span>Categories</span>
-          </li>
-          <li class="nav-item">
+
+          <a
+            id="classing"
+            class="nav-item active"
+            onclick="toggleSubCategories()"
+          >
+            <i class="fas fa-table"></i>
+            <span>Classement</span>
+            <i
+              id="classing-icon"
+              class="fas fa-caret-down"
+              style="margin-left: auto"
+            ></i>
+          </a>
+
+          <div id="sub-categories">
+            <a class="nav-item sub-category active">
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Familles</span>
+            </a>
+            <a
+              class="nav-item sub-category"
+              href="/classement/sous-familles.html"
+            >
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Sous Familles</span>
+            </a>
+            <a class="nav-item sub-category" href="/classement/catégories.html">
+              <i class="fas fa-building"></i>
+              <span style="font-size: 14px">Catégories</span>
+            </a>
+          </div>
+          <a class="nav-item" href="/fournisseurs.html">
+            <i class="fas fa-building"></i>
+            <span>Fabriquants</span>
+          </a>
+          <a class="nav-item" href="/fournisseurs.html">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
-          </li>
+          </a>
         </ul>
+      </div>
+      <div style="border-top: 3px solid #2e2e2e; margin-top: 99%">
+        <a class="nav-item red-active">
+          <i class="fas fa-power-off"></i>
+          <span>Se déconnecter</span>
+        </a>
       </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Categories</h1>
+        <h1 class="page-title">Liste des Familles</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
-            onclick="toggleAddEntryModal(true)"
+            onclick="toggleAddFamilyModal(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Catégorie
+            Ajouter Famille
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -72,14 +116,12 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="fournisseur-count">
-            Liste des Catégories
-          </div>
+          <div class="card-title" id="entry-count">Liste des Familles</div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Catégories"
+              placeholder="Cherchez Familles"
               class="search-bar"
             />
             <button onclick="toggleFilterModal(true)" class="filter-button">
@@ -110,13 +152,13 @@
             </div>
             <thead>
               <tr>
-                <th>Nom</th>
-                <th>Articles</th>
-                <th>Entrées</th>
-                <th>Sorties</th>
+                <th>Code</th>
+                <th>Nom du Famille</th>
+                <th>Sous Familles</th>
+                <th>Catégories</th>
               </tr>
             </thead>
-            <tbody class="car-list"></tbody>
+            <tbody id="family-list"></tbody>
           </table>
         </div>
       </div>
@@ -126,7 +168,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des Catégories</h3>
+          <h3 class="modal-title">Filtrer liste des entrées</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -142,42 +184,71 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom du catégorie : </label>
-              <input class="form-control" type="text" />
+              <label>Article : </label>
+              <select class="form-control">
+                <option value="">Tous les articles</option>
+              </select>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Articles du : </label>
-              <input class="form-control" type="number" />
+              <label>Date du : </label>
+              <input class="form-control" type="date" />
             </div>
             <div class="form-group" style="width: 100%">
-              <label>Articles au : </label>
-              <input class="form-control" type="number" />
+              <label>Date au : </label>
+              <input class="form-control" type="date" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Entrées du :</label>
+              <label>Stock du :</label>
               <input type="number" class="form-control" />
             </div>
             <div class="form-group">
-              <label>Entrées au :</label>
+              <label>Stock au :</label>
               <input type="number" class="form-control" />
             </div>
           </div>
 
           <div class="form-row">
-            <div class="form-group">
-              <label>Sorties du :</label>
-              <input type="number" class="form-control" />
+            <div class="form-group" style="width: 100%">
+              <label>Famille : </label>
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Tous les familles</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label>Sorties au :</label>
-              <input type="number" class="form-control" />
+            <div class="form-group" style="width: 100%">
+              <label>Sous famille : </label>
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Tous les sous familles</option>
+              </select>
             </div>
+            <div class="form-row"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <label>Categorie : </label>
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Tous les categories</option>
+              </select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <label>Fournisseur : </label>
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Tous les fournisseurs</option>
+              </select>
+            </div>
+            <div class="form-row"></div>
+          </div>
+          <div class="form-group">
+            <label>Fabriquant : </label>
+            <select class="form-control">
+              <option value="">Tous les fabriquants</option>
+            </select>
           </div>
         </div>
 
@@ -196,15 +267,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="add-entry-modal">
+    <div class="modal-overlay" id="add-family-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Catégorie</h3>
+          <h3 class="modal-title">Ajouter Famille</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddFamilyModal(false)"
           >
             &times;
           </button>
@@ -224,8 +295,8 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom du catégorie : </label>
-              <input type="text" class="form-control" id="add-article-name" />
+              <label>Nom du famille : </label>
+              <input type="text" class="form-control" />
             </div>
           </div>
         </div>
@@ -234,7 +305,7 @@
         <div class="modal-footer">
           <button
             class="button button-cancel"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddFamilyModal(false)"
           >
             Annuler
           </button>
@@ -245,15 +316,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="category-details-modal">
+    <div class="modal-overlay" id="family-details-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details du Catégorie</h3>
+          <h3 class="modal-title">Details du Famille</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="setCategoryDetailsModal(false)"
+            onclick="toggleFamilyDetailsModal(false)"
           >
             &times;
           </button>
@@ -271,20 +342,10 @@
             </button>
           </div>
 
-          <div class="alert" role="alert">
-            <i
-              class="fas fa-triangle-exclamation alert-icon"
-              aria-hidden="true"
-            ></i>
-            <div class="alert-message">
-              Matricule du voiture est obligatoire
-            </div>
-          </div>
-
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom du catégorie : </label>
-              <input type="text" class="form-control" id="nom" />
+              <label>Nom du Famille : </label>
+              <input type="text" class="form-control" />
             </div>
           </div>
         </div>
@@ -293,7 +354,7 @@
         <div class="modal-footer">
           <button
             class="delete-button"
-            onclick="setFournisseurDetailsModal()"
+            onclick="addCarSubmit()"
             style="margin-right: auto"
           >
             Supprimer
@@ -301,22 +362,16 @@
 
           <button
             class="button button-cancel"
-            onclick="setFournisseurDetailsModal(false)"
+            onclick="toggleFamilyDetailsModal(false)"
           >
-            Entrées
-          </button>
-          <button
-            class="button button-cancel"
-            onclick="setFournisseurDetailsModal(false)"
-          >
-            Sorties
+            Sous Familles
           </button>
 
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Articles
+            Catégories
           </button>
 
           <button class="button button-submit" onclick="addCarSubmit()">
@@ -330,7 +385,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des Catégories</h3>
+          <h3 class="modal-title">Trier liste des entrées</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -344,13 +399,14 @@
         <div class="modal-body">
           <div class="form-row">
             <div class="form-group" style="width: 100%">
+              <label>Trier Par : </label>
               <select class="form-control">
-                <option>Articles</option>
-                <option>Entrées</option>
-                <option>Sorties</option>
+                <option>Date</option>
+                <option>Stock entrée</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
+              <label>Ordre : </label>
               <select class="form-control">
                 <option>Ordre croissant</option>
                 <option>Ordre décroissant</option>
@@ -453,5 +509,5 @@
     </div>
   </body>
 
-  <script src="./scripts/categories.js"></script>
+  <script src="../scripts/classement/familles.js"></script>
 </html>
