@@ -2,9 +2,9 @@ let categories = [
   {
     id: "0",
     nom: "TPO-FPO",
-    articles: 15,
-    entrées: 20,
-    sorties: 14,
+    famille: "Chantier",
+    sousFamille: "Materielles Batiments",
+    articles: 10,
   },
 ];
 
@@ -35,11 +35,11 @@ function loadCategories() {
 
   categories.forEach((category) => {
     content += `<tr onclick='setCategoryDetailsModal(true, "${category.id}")' >
+                    <td>${category.id}</td>
                     <td>${category.nom}</td>
+                    <td>${category.famille}</td>
+                    <td>${category.sousFamille}</td>
                     <td>${category.articles}</td>
-                    <td>${category.entrées}</td>
-                    <td>${category.sorties}</td>
-                        
                 </tr>`;
   });
 

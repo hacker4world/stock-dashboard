@@ -150,10 +150,11 @@
             </div>
             <thead>
               <tr>
-                <th id="first-col">Nom</th>
-                <th>Articles</th>
-                <th>Entrées</th>
-                <th id="last-col">Sorties</th>
+                <th id="first-col">Code</th>
+                <th>Nom</th>
+                <th>Famille</th>
+                <th>Sous Famille</th>
+                <th id="last-col">Articles</th>
               </tr>
             </thead>
             <tbody class="car-list"></tbody>
@@ -182,8 +183,12 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Nom du catégorie : </label>
-              <input class="form-control" type="text" />
+              <label>Famille : </label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
             </div>
           </div>
 
@@ -327,6 +332,16 @@
               <input type="text" class="form-control" id="nom" />
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group" style="width: 100%">
+              <label>Famille : </label>
+              <select class="form-control"></select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
+            </div>
+          </div>
         </div>
 
         <!-- Modal Footer -->
@@ -343,13 +358,14 @@
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Entrées
+            Famille
           </button>
+
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Sorties
+            Sous Famille
           </button>
 
           <button
@@ -357,6 +373,19 @@
             onclick="setFournisseurDetailsModal(false)"
           >
             Articles
+          </button>
+
+          <button
+            class="button button-cancel"
+            onclick="setFournisseurDetailsModal(false)"
+          >
+            Entrées
+          </button>
+          <button
+            class="button button-cancel"
+            onclick="setFournisseurDetailsModal(false)"
+          >
+            Sorties
           </button>
 
           <button class="button button-submit" onclick="addCarSubmit()">

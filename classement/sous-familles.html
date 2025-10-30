@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="../styles/gestion-voitures.css" />
   </head>
-  <body onload="loadEntries()">
+  <body onload="loadSubFamilies()">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -97,14 +97,14 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Entrées</h1>
+        <h1 class="page-title">Liste des Sous Familles</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
-            onclick="toggleAddEntryModal(true)"
+            onclick="toggleAddSubfamilyModal(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Entrée
+            Ajouter Sous Famille
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -116,12 +116,12 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="entry-count">Liste des Entrées</div>
+          <div class="card-title" id="entry-count">Liste des Sous Familles</div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Entrées"
+              placeholder="Cherchez Sous Familles"
               class="search-bar"
             />
             <button onclick="toggleFilterModal(true)" class="filter-button">
@@ -152,15 +152,13 @@
             </div>
             <thead>
               <tr>
-                <th>Code de l'article</th>
-                <th>Produit</th>
-                <th>Categorie</th>
-                <th>Date</th>
-                <th>Stock Entrée</th>
-                <th>Fournisseur</th>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Famille</th>
+                <th>Catégories</th>
               </tr>
             </thead>
-            <tbody class="car-list"></tbody>
+            <tbody id="subfamily-list"></tbody>
           </table>
         </div>
       </div>
@@ -170,7 +168,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des entrées</h3>
+          <h3 class="modal-title">Filtrer liste des sous familles</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -186,72 +184,24 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control">
-                <option value="">Tous les articles</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Date du : </label>
-              <input class="form-control" type="date" />
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Date au : </label>
-              <input class="form-control" type="date" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Stock du :</label>
-              <input type="number" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label>Stock au :</label>
-              <input type="number" class="form-control" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
               <label>Famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
+              <select class="form-control">
                 <option value="">Tous les familles</option>
               </select>
             </div>
-            <div class="form-group" style="width: 100%">
-              <label>Sous famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les sous familles</option>
-              </select>
-            </div>
-            <div class="form-row"></div>
           </div>
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Categorie : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les categories</option>
-              </select>
+              <label>Catégories du : </label>
+              <input class="form-control" type="number" />
             </div>
             <div class="form-group" style="width: 100%">
-              <label>Fournisseur : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les fournisseurs</option>
-              </select>
+              <label>Catégories au : </label>
+              <input class="form-control" type="number" />
             </div>
-            <div class="form-row"></div>
           </div>
-          <div class="form-group">
-            <label>Fabriquant : </label>
-            <select class="form-control">
-              <option value="">Tous les fabriquants</option>
-            </select>
-          </div>
+
         </div>
 
         <!-- Modal Footer -->
@@ -269,15 +219,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="add-entry-modal">
+    <div class="modal-overlay" id="add-subfamily-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Entrée</h3>
+          <h3 class="modal-title">Ajouter Sous Famille</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddSubfamilyModal(false)"
           >
             &times;
           </button>
@@ -297,53 +247,17 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+              <label>Nom du sous famille : </label>
+              <input type="text" class="form-control">
             </div>
           </div>
 
+        
           <div class="form-row">
             <div class="form-group">
-              <label>Stock entrée : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="add-actual-stock"
-              />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input min="0" type="date" class="form-control" id="add-price" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fournisseur : </label>
+              <label>Famille : </label>
               <select class="form-control" id="add-fournisseur">
-                <option value="">Sélectionnez un fournisseur</option>
-                <option value="IMPER">IMPER</option>
-                <option value="SIKA">SIKA</option>
-                <option value="KÔSTER">KÔSTER</option>
-                <option value="ETANCO">ETANCO</option>
-                <option value="GAURDIEN">GAURDIEN</option>
-                <option value="GAUARDIAN">GAUARDIAN</option>
-                <option value="ALETAS">ALETAS</option>
-                <option value="INDEX">INDEX</option>
-                <option value="RONDRUP">RONDRUP</option>
-                <option value="GRG">GRG</option>
-                <option value="MODULE">MODULE</option>
-                <option value="CELLULOSIQUE">CELLULOSIQUE</option>
-                <option value="Rubberfuse">Rubberfuse</option>
-                <option value="ASSOFLEX">ASSOFLEX</option>
-                <option value="DERBIGUM">DERBIGUM</option>
-                <option value="POLYANE">POLYANE</option>
-                <option value="ROCKACIER">ROCKACIER</option>
-                <option value="COBERLAN">COBERLAN</option>
-                <option value="ROCK-UP">ROCK-UP</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="NIROL">NIROL</option>
+                
               </select>
             </div>
           </div>
@@ -353,7 +267,7 @@
         <div class="modal-footer">
           <button
             class="button button-cancel"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddSubfamilyModal(false)"
           >
             Annuler
           </button>
@@ -364,15 +278,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="entry-details-modal">
+    <div class="modal-overlay" id="subfamily-details-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details d'entrée</h3>
+          <h3 class="modal-title">Details du sous famille</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="setEntryDetailsModal(false)"
+            onclick="toggleSubfamilyDetailsModal(false)"
           >
             &times;
           </button>
@@ -392,58 +306,18 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+              <label>Nom du sous famille : </label>
+              <input type="text" class="form-control">
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label>Stock entrée : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="details-actual-stock"
-              />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input
-                min="0"
-                type="date"
-                class="form-control"
-                id="details-date"
-              />
-            </div>
-          </div>
+         
 
           <div class="form-row">
             <div class="form-group">
-              <label>Fournisseur : </label>
+              <label>Famille : </label>
               <select class="form-control" id="details-fournisseur">
-                <option value="">Sélectionnez un fournisseur</option>
-                <option value="IMPER">IMPER</option>
-                <option value="SIKA">SIKA</option>
-                <option value="KÔSTER">KÔSTER</option>
-                <option value="ETANCO">ETANCO</option>
-                <option value="GAURDIEN">GAURDIEN</option>
-                <option value="GAUARDIAN">GAUARDIAN</option>
-                <option value="ALETAS">ALETAS</option>
-                <option value="INDEX">INDEX</option>
-                <option value="RONDRUP">RONDRUP</option>
-                <option value="GRG">GRG</option>
-                <option value="MODULE">MODULE</option>
-                <option value="CELLULOSIQUE">CELLULOSIQUE</option>
-                <option value="Rubberfuse">Rubberfuse</option>
-                <option value="ASSOFLEX">ASSOFLEX</option>
-                <option value="DERBIGUM">DERBIGUM</option>
-                <option value="POLYANE">POLYANE</option>
-                <option value="ROCKACIER">ROCKACIER</option>
-                <option value="COBERLAN">COBERLAN</option>
-                <option value="ROCK-UP">ROCK-UP</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="NIROL">NIROL</option>
+                
               </select>
             </div>
           </div>
@@ -463,14 +337,14 @@
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Fournisseur
+            Famille
           </button>
 
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Article
+            Catégories
           </button>
 
           <button class="button button-submit" onclick="addCarSubmit()">
@@ -484,7 +358,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des entrées</h3>
+          <h3 class="modal-title">Trier Sous Familles</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -500,15 +374,14 @@
             <div class="form-group" style="width: 100%">
               <label>Trier Par : </label>
               <select class="form-control">
-                <option>Date</option>
-                <option>Stock entrée</option>
+                <option>Catégories</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
               <label>Ordre : </label>
               <select class="form-control">
-                <option>Ordre croissant</option>
-                <option>Ordre décroissant</option>
+                <option>Croissant</option>
+                <option>Décroissant</option>
               </select>
             </div>
           </div>

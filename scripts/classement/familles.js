@@ -16,6 +16,9 @@ let familyList = document.getElementById("family-list");
 
 let familyDetailsModal = document.getElementById("family-details-modal");
 
+let filterModal = document.getElementById("filter-modal");
+let sortModal = document.getElementById("sort-modal");
+
 function toggleAddFamilyModal(open) {
   if (open) {
     addFamilyModal.style.display = "flex";
@@ -53,4 +56,14 @@ function loadFamilies() {
 function toggleFamilyDetailsModal(open) {
   if (open) familyDetailsModal.style.display = "flex";
   else familyDetailsModal.style.display = "none";
+}
+
+function toggleFilterModal(open) {
+  if (open) filterModal.style.display = "flex";
+  else filterModal.style.display = "none";
+}
+
+function setSortModal(open) {
+  if (open) sortModal.style.display = "flex";
+  else sortModal.style.display = "none";
 }
