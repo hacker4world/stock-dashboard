@@ -44,6 +44,10 @@
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
           </a>
+          <a class="nav-item" href="/fabriquants.html">
+            <i class="fas fa-industry"></i>
+            <span>Fabriquants</span>
+          </a>
           <a id="classing" class="nav-item" onclick="toggleSubCategories()">
             <i class="fas fa-table"></i>
             <span>Classement</span>
@@ -56,29 +60,29 @@
 
           <div id="sub-categories">
             <a class="nav-item sub-category" href="./classement/familles.html">
-              <i class="fas fa-building"></i>
+              <i class="fas fa-project-diagram"></i>
               <span style="font-size: 14px">Familles</span>
             </a>
             <a
               class="nav-item sub-category"
               href="./classement/sous-familles.html"
             >
-              <i class="fas fa-building"></i>
+              <i class="fas fa-project-diagram"></i>
               <span style="font-size: 14px">Sous Familles</span>
             </a>
             <a
               class="nav-item sub-category"
               href="./classement/catégories.html"
             >
-              <i class="fas fa-building"></i>
+              <i class="fas fa-project-diagram"></i>
               <span style="font-size: 14px">Catégories</span>
             </a>
           </div>
-          <a class="nav-item" href="./fournisseurs.html">
-            <i class="fas fa-building"></i>
-            <span>Fabriquants</span>
+          <a class="nav-item" href="/chantier.html">
+            <i class="fas fa-hard-hat"></i>
+            <span>Chantier</span>
           </a>
-          <a class="nav-item" href="./fournisseurs.html">
+          <a class="nav-item" href="/notifications.html">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
           </a>
@@ -150,14 +154,12 @@
             </div>
             <thead>
               <tr>
-                <th>Code</th>
+                <th id="first-col">Code</th>
                 <th>Nom</th>
-                <th>Categorie</th>
+                <th>Catégorie</th>
                 <th>Stock</th>
-                <th>Minimum</th>
-                <th>Maximum</th>
                 <th>Prix unitaire</th>
-                <th>Fournisseur</th>
+                <th id="last-col">Fournisseur</th>
               </tr>
             </thead>
             <tbody class="car-list"></tbody>
@@ -182,21 +184,6 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-          <!-- Matricule agent -->
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Catégorie</option>
-              </select>
-            </div>
-            <div class="form-group" style="width: 100%">
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Fournisseur</option>
-              </select>
-            </div>
-          </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Stock du :</label>
@@ -220,11 +207,15 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group">
-              <label>Fabriquant</label>
-              <select class="form-control">
-                <option value="">Tous les fabriquants</option>
+            <div class="form-group" style="width: 100%">
+              <label>Catégorie :</label>
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Catégorie</option>
               </select>
+            </div>
+            <div class="form-group" style="width: 100%">
+              <label>Fabriquant :</label>
+              <select class="form-control" placeholder="Entrez marque"></select>
             </div>
           </div>
         </div>
@@ -356,31 +347,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="add-fournisseur">
-                <option value="">Sélectionnez un fournisseur</option>
-                <option value="IMPER">IMPER</option>
-                <option value="SIKA">SIKA</option>
-                <option value="KÔSTER">KÔSTER</option>
-                <option value="ETANCO">ETANCO</option>
-                <option value="GAURDIEN">GAURDIEN</option>
-                <option value="GAUARDIAN">GAUARDIAN</option>
-                <option value="ALETAS">ALETAS</option>
-                <option value="INDEX">INDEX</option>
-                <option value="RONDRUP">RONDRUP</option>
-                <option value="GRG">GRG</option>
-                <option value="MODULE">MODULE</option>
-                <option value="CELLULOSIQUE">CELLULOSIQUE</option>
-                <option value="Rubberfuse">Rubberfuse</option>
-                <option value="ASSOFLEX">ASSOFLEX</option>
-                <option value="DERBIGUM">DERBIGUM</option>
-                <option value="POLYANE">POLYANE</option>
-                <option value="ROCKACIER">ROCKACIER</option>
-                <option value="COBERLAN">COBERLAN</option>
-                <option value="ROCK-UP">ROCK-UP</option>
-                <option value="GÉOTEXTILE">GÉOTEXTILE</option>
-                <option value="NIROL">NIROL</option>
-              </select>
+              <label>Fabriqaunt : </label>
+              <select class="form-control" id="add-fournisseur"></select>
             </div>
           </div>
         </div>
@@ -404,7 +372,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details de l'article</h3>
+          <h3 class="modal-title">Détails de l'article</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -497,7 +465,7 @@
               <select class="form-control"></select>
             </div>
             <div class="form-group">
-              <label>Fournisseur : </label>
+              <label>Fabriquant : </label>
               <select class="form-control"></select>
             </div>
           </div>

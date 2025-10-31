@@ -245,7 +245,7 @@ body {
 }
 
 thead {
-  background-color: #1F1F1F;
+  background-color: #1f1f1f;
 }
 
 .data-table th {
@@ -491,7 +491,7 @@ thead {
 }
 
 .export {
-  background-color: #111111;
+  background-color: #1f1f1f;
   color: white;
   border: none;
   display: flex;

@@ -738,13 +738,11 @@ function renderCars(cars) {
   selectedCars.forEach((car) => {
     content += `<tr onclick='setCarDetailsModal(true, "${car.id}")' >
                     <td>${car.id}</td>
-                    <td>${car.nom}</td>
-                    <td>${car.categorie}</td>
+                    <td>${car.nom.toLowerCase()}</td>
+                    <td>${car.categorie.toLowerCase()}</td>
                     <td>${car.stockActuel}</td>
-                    <td>${car.stockMin}</td>
-                    <td>${car.stockMax}</td>
                     <td>${car.prix}</td>
-                    <td>${car.fournisseur}</td>
+                    <td>${car.fournisseur.toLowerCase()}</td>
                         
                 </tr>`;
   });

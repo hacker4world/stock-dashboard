@@ -1,8 +1,1 @@
-sidebar icons
-filter by family, subfamily across all related pages
-chantier, fabriquants pages
-fabriquants support (entrées)
-chantier support (sortie)
-notifications page
 fix button colors
-filter fournisseurs

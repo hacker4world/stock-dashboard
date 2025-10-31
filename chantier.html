@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="./styles/gestion-voitures.css" />
   </head>
-  <body onload="loadEntries()">
+  <body onload="loadChantiers()">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -36,7 +36,7 @@
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
           </a>
-          <a class="nav-item active">
+          <a class="nav-item" href="/sorties.html">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
           </a>
@@ -75,7 +75,7 @@
               <span style="font-size: 14px">Catégories</span>
             </a>
           </div>
-          <a class="nav-item" href="/chantier.html">
+          <a class="nav-item active" href="/chantier.html">
             <i class="fas fa-hard-hat"></i>
             <span>Chantier</span>
           </a>
@@ -96,14 +96,14 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Sorties</h1>
+        <h1 class="page-title">Liste des chantiers</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
-            onclick="toggleAddEntryModal(true)"
+            onclick="toggleAddChantier(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Sortie
+            Ajouter Chantier
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -115,17 +115,14 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="car-count">Liste des Sorties</div>
+          <div class="card-title" id="car-count">Liste des chantiers</div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Sorties"
+              placeholder="Cherchez chantiers"
               class="search-bar"
             />
-            <button onclick="toggleFilterModal(true)" class="filter-button">
-              <i class="fa-solid fa-filter"></i>
-            </button>
             <button
               class="sort-button"
               style="margin-left: 5px"
@@ -151,15 +148,12 @@
             </div>
             <thead>
               <tr>
-                <th>Code de l'article</th>
-                <th>Produit</th>
-                <th>Categorie</th>
-                <th>Date</th>
-                <th>Stock Sortie</th>
-                <th>Fournisseur</th>
+                <th id="first-col">Code</th>
+                <th>Nom</th>
+                <th id="last-col">Adresse</th>
               </tr>
             </thead>
-            <tbody class="car-list"></tbody>
+            <tbody id="chantiers-list"></tbody>
           </table>
         </div>
       </div>
@@ -169,7 +163,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des sorties</h3>
+          <h3 class="modal-title">Filtrer liste des articles</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -185,19 +179,14 @@
 
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Produit : </label>
-              <input class="form-control" type="text" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Date du : </label>
-              <input class="form-control" type="date" />
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Catégorie</option>
+              </select>
             </div>
             <div class="form-group" style="width: 100%">
-              <label>Date au : </label>
-              <input class="form-control" type="date" />
+              <select class="form-control" placeholder="Entrez marque">
+                <option value="">Fournisseur</option>
+              </select>
             </div>
           </div>
 
@@ -213,32 +202,21 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group" style="width: 100%">
+            <div class="form-group">
               <label>Famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les familles</option>
-              </select>
+              <select class="form-control"></select>
             </div>
-            <div class="form-group" style="width: 100%">
-              <label>Sous famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les sous familles</option>
-              </select>
+            <div class="form-group">
+              <label>Sous Famille : </label>
+              <select class="form-control"></select>
             </div>
-            <div class="form-row"></div>
           </div>
 
           <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Categorie : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les categories</option>
-              </select>
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Fournisseur : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les fournisseurs</option>
+            <div class="form-group">
+              <label>Fabriquant</label>
+              <select class="form-control">
+                <option value="">Tous les fabriquants</option>
               </select>
             </div>
           </div>
@@ -259,15 +237,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="add-entry-modal">
+    <div class="modal-overlay" id="add-chantier-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Sortie</h3>
+          <h3 class="modal-title">Ajouter Chantier</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddChantier(false)"
           >
             &times;
           </button>
@@ -286,36 +264,25 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+            <div class="form-group">
+              <label>Code chantier : </label>
+              <input type="text" class="form-control" id="add-article-name" />
+            </div>
+            <div class="form-group">
+              <label>Nom du chantier : </label>
+              <input type="text" class="form-control" id="add-article-name" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock Sortie : </label>
+              <label>Adresse : </label>
               <input
                 min="0"
-                type="number"
+                type="text"
                 class="form-control"
                 id="add-actual-stock"
               />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input min="0" type="date" class="form-control" id="add-price" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="add-fournisseur"></select>
-            </div>
-            <div class="form-group">
-              <label>Chantier : </label>
-              <select class="form-control" id="add-fournisseur"></select>
             </div>
           </div>
         </div>
@@ -324,33 +291,30 @@
         <div class="modal-footer">
           <button
             class="button button-cancel"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddChantier(false)"
           >
             Annuler
           </button>
-          <button class="button button-submit" onclick="addCarSubmit()">
-            Ajouter
-          </button>
+          <button class="button button-submit">Ajouter</button>
         </div>
       </div>
     </div>
 
-    <div class="modal-overlay" id="entry-details-modal">
+    <div class="modal-overlay" id="chantier-details-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details du Sortie</h3>
+          <h3 class="modal-title">Details du chantier</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="setEntryDetailsModal(false)"
+            onclick="toggleDetailsModal(false)"
           >
             &times;
           </button>
         </div>
 
         <!-- Modal Body -->
-
         <div class="modal-body">
           <div class="modification-alert" role="alert">
             <i class="fas fa-exclamation-circle alert-icon"></i>
@@ -361,42 +325,31 @@
             </button>
           </div>
 
+          <div class="alert" role="alert">
+            <i
+              class="fas fa-triangle-exclamation alert-icon"
+              aria-hidden="true"
+            ></i>
+            <div class="alert-message">
+              Matricule du voiture est obligatoire
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+              <label>Code chantier : </label>
+              <input type="text" class="form-control" id="article-name" />
+            </div>
+            <div class="form-group" style="width: 100%">
+              <label>Nom du chantier : </label>
+              <input type="text" class="form-control" id="article-name" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock Sortie : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="details-actual-stock"
-              />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input
-                min="0"
-                type="date"
-                class="form-control"
-                id="details-date"
-              />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="details-fournisseur"></select>
-            </div>
-            <div class="form-group">
-              <label>Chantier : </label>
-              <select class="form-control" id="details-fournisseur"></select>
+              <label>Adresse : </label>
+              <input type="text" class="form-control" id="actual-stock" />
             </div>
           </div>
         </div>
@@ -410,19 +363,14 @@
           >
             Supprimer
           </button>
-          <button
-            class="button button-cancel"
-            onclick="setFournisseurDetailsModal(false)"
-          >
-            Fournisseur
-          </button>
 
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Article
+            Sorties
           </button>
+
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer
           </button>
@@ -434,7 +382,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des Sorties</h3>
+          <h3 class="modal-title">Trier liste</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -450,8 +398,10 @@
             <div class="form-group" style="width: 100%">
               <label>Trier par : </label>
               <select class="form-control">
-                <option>Date</option>
-                <option>Stock sortie</option>
+                <option>Stock</option>
+                <option>Prix unitaire</option>
+                <option>Prix minimum</option>
+                <option>Prix maximum</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
@@ -558,5 +508,5 @@
     </div>
   </body>
 
-  <script src="./scripts/sortie.js"></script>
+  <script src="./scripts/chantier.js"></script>
 </html>

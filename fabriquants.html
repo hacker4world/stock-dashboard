@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="./styles/gestion-voitures.css" />
   </head>
-  <body onload="loadEntries()">
+  <body onload="loadFabriquants()">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -36,7 +36,7 @@
             <i class="fas fa-warehouse"></i>
             <span>Entrées</span>
           </a>
-          <a class="nav-item active">
+          <a class="nav-item" href="/sorties.html">
             <i class="fas fa-truck"></i>
             <span>Sorties</span>
           </a>
@@ -44,7 +44,7 @@
             <i class="fas fa-building"></i>
             <span>Fournisseurs</span>
           </a>
-          <a class="nav-item" href="/fabriquants.html">
+          <a class="nav-item active">
             <i class="fas fa-industry"></i>
             <span>Fabriquants</span>
           </a>
@@ -96,14 +96,14 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="header">
-        <h1 class="page-title">Liste des Sorties</h1>
+        <h1 class="page-title">Liste des Fabriquants</h1>
         <div class="user-menu">
           <button
             class="button add-car-button"
-            onclick="toggleAddEntryModal(true)"
+            onclick="toggleAddFabriquantModal(true)"
           >
             <i class="fa-solid fa-plus"></i>
-            Ajouter Sortie
+            Ajouter Fabriquant
           </button>
           <button class="button export" onclick="setImportExportModal(true)">
             <i class="fa-solid fa-file"></i>
@@ -115,12 +115,12 @@
       <!-- Table -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title" id="car-count">Liste des Sorties</div>
+          <div class="card-title" id="car-count">Liste des Fabriquants</div>
 
           <div class="card-search">
             <input
               type="text"
-              placeholder="Cherchez Sorties"
+              placeholder="Cherchez Fabriquant"
               class="search-bar"
             />
             <button onclick="toggleFilterModal(true)" class="filter-button">
@@ -151,15 +151,13 @@
             </div>
             <thead>
               <tr>
-                <th>Code de l'article</th>
-                <th>Produit</th>
-                <th>Categorie</th>
-                <th>Date</th>
-                <th>Stock Sortie</th>
-                <th>Fournisseur</th>
+                <th id="first-col">Code</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th id="last-col">Articles</th>
               </tr>
             </thead>
-            <tbody class="car-list"></tbody>
+            <tbody id="fabriquant-list"></tbody>
           </table>
         </div>
       </div>
@@ -169,7 +167,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Filtrer liste des sorties</h3>
+          <h3 class="modal-title">Filtrer liste des articles</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -181,65 +179,15 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-          <!-- Matricule agent -->
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Produit : </label>
-              <input class="form-control" type="text" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Date du : </label>
-              <input class="form-control" type="date" />
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Date au : </label>
-              <input class="form-control" type="date" />
-            </div>
-          </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock du :</label>
+              <label>Articles du :</label>
               <input type="number" class="form-control" />
             </div>
             <div class="form-group">
-              <label>Stock au :</label>
+              <label>Articles au :</label>
               <input type="number" class="form-control" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les familles</option>
-              </select>
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Sous famille : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les sous familles</option>
-              </select>
-            </div>
-            <div class="form-row"></div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Categorie : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les categories</option>
-              </select>
-            </div>
-            <div class="form-group" style="width: 100%">
-              <label>Fournisseur : </label>
-              <select class="form-control" placeholder="Entrez marque">
-                <option value="">Tous les fournisseurs</option>
-              </select>
             </div>
           </div>
         </div>
@@ -259,15 +207,15 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="add-entry-modal">
+    <div class="modal-overlay" id="add-fabriquant-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Ajouter Sortie</h3>
+          <h3 class="modal-title">Ajouter Fabriquant</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddFabriquantModal(false)"
           >
             &times;
           </button>
@@ -286,36 +234,20 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+            <div class="form-group">
+              <label>Code Fabriquant : </label>
+              <input type="text" class="form-control" id="add-article-name" />
+            </div>
+            <div class="form-group">
+              <label>Nom du Fabriquant : </label>
+              <input type="text" class="form-control" id="add-article-name" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Stock Sortie : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="add-actual-stock"
-              />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input min="0" type="date" class="form-control" id="add-price" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="add-fournisseur"></select>
-            </div>
-            <div class="form-group">
-              <label>Chantier : </label>
-              <select class="form-control" id="add-fournisseur"></select>
+              <label>Adresse :</label>
+              <input type="text" class="form-control" />
             </div>
           </div>
         </div>
@@ -324,7 +256,7 @@
         <div class="modal-footer">
           <button
             class="button button-cancel"
-            onclick="toggleAddEntryModal(false)"
+            onclick="toggleAddFabriquantModal(false)"
           >
             Annuler
           </button>
@@ -335,22 +267,21 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="entry-details-modal">
+    <div class="modal-overlay" id="fabriquant-details-modal">
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Details du Sortie</h3>
+          <h3 class="modal-title">Détails du Fabriquant</h3>
           <button
             class="close-button"
             id="close-modal"
-            onclick="setEntryDetailsModal(false)"
+            onclick="toggleDetailsModal(false)"
           >
             &times;
           </button>
         </div>
 
         <!-- Modal Body -->
-
         <div class="modal-body">
           <div class="modification-alert" role="alert">
             <i class="fas fa-exclamation-circle alert-icon"></i>
@@ -361,42 +292,27 @@
             </button>
           </div>
 
+          <div class="alert" role="alert">
+            <i
+              class="fas fa-triangle-exclamation alert-icon"
+              aria-hidden="true"
+            ></i>
+            <div class="alert-message">
+              Matricule du voiture est obligatoire
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group" style="width: 100%">
-              <label>Article : </label>
-              <select class="form-control"></select>
+              <label>Nom du Fabriquant : </label>
+              <input type="text" class="form-control" id="article-name" />
             </div>
           </div>
 
           <div class="form-row">
-            <div class="form-group">
-              <label>Stock Sortie : </label>
-              <input
-                min="0"
-                type="number"
-                class="form-control"
-                id="details-actual-stock"
-              />
-            </div>
-            <div class="form-group">
-              <label>Date : </label>
-              <input
-                min="0"
-                type="date"
-                class="form-control"
-                id="details-date"
-              />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fournisseur : </label>
-              <select class="form-control" id="details-fournisseur"></select>
-            </div>
-            <div class="form-group">
-              <label>Chantier : </label>
-              <select class="form-control" id="details-fournisseur"></select>
+            <div class="form-group" style="width: 100%">
+              <label>Adresse : </label>
+              <input type="text" class="form-control" id="article-name" />
             </div>
           </div>
         </div>
@@ -410,19 +326,14 @@
           >
             Supprimer
           </button>
-          <button
-            class="button button-cancel"
-            onclick="setFournisseurDetailsModal(false)"
-          >
-            Fournisseur
-          </button>
 
           <button
             class="button button-cancel"
             onclick="setFournisseurDetailsModal(false)"
           >
-            Article
+            Articles
           </button>
+
           <button class="button button-submit" onclick="addCarSubmit()">
             Enregistrer
           </button>
@@ -434,7 +345,7 @@
       <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title">Trier liste des Sorties</h3>
+          <h3 class="modal-title">Trier liste</h3>
           <button
             class="close-button"
             id="close-modal"
@@ -450,8 +361,7 @@
             <div class="form-group" style="width: 100%">
               <label>Trier par : </label>
               <select class="form-control">
-                <option>Date</option>
-                <option>Stock sortie</option>
+                <option>Articles</option>
               </select>
             </div>
             <div class="form-group" style="width: 100%">
@@ -558,5 +468,5 @@
     </div>
   </body>
 
-  <script src="./scripts/sortie.js"></script>
+  <script src="./scripts/fabriquant.js"></script>
 </html>
